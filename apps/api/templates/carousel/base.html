@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Base Reset */
+        *, *::before, *::after { box-sizing: border-box; }
+        body { 
+            margin: 0; 
+            padding: 0; 
+            width: 1080px; 
+            height: 1080px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        /* ── Themes ────────────────────────────────────────── */
+        
+        /* 1. Dark Theme */
+        body.theme-dark { background-color: #0A0A0A; }
+        body.theme-dark .card { background-color: #111111; border: 1px solid #222222; }
+        body.theme-dark .label { color: #F5A623; text-transform: uppercase; font-family: monospace; font-size: 24px; letter-spacing: 2px; }
+        body.theme-dark .headline { color: #F5F5F0; font-style: italic; font-family: "Georgia", serif; font-size: 80px; }
+        body.theme-dark .body-text { color: #8C8C8C; font-weight: 300; font-size: 48px; }
+        body.theme-dark .accent-bar { border-left: 6px solid #F5A623; padding-left: 30px; }
+        body.theme-dark .slide-number { position: absolute; bottom: 60px; right: 60px; font-family: monospace; color: #F5A623; font-size: 32px; }
+        body.theme-dark .watermark { position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,0.1); font-size: 24px; }
+
+        /* 2. Gradient Theme */
+        body.theme-gradient { background: linear-gradient(135deg, #0F0C29, #302B63, #24243E); }
+        body.theme-gradient .card { background: rgba(255, 255, 255, 0.06); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        body.theme-gradient .label { color: #A78BFA; text-transform: uppercase; font-size: 24px; letter-spacing: 2px; display: inline-block; background: rgba(167, 139, 250, 0.15); padding: 8px 24px; border-radius: 50px; }
+        body.theme-gradient .headline { color: #FFFFFF; font-weight: 800; font-size: 80px; }
+        body.theme-gradient .body-text { color: rgba(255, 255, 255, 0.75); font-size: 48px; }
+        body.theme-gradient .accent-bar { padding-left: 20px; }
+        body.theme-gradient .slide-number { position: absolute; top: 60px; right: 60px; color: rgba(255,255,255,0.4); font-size: 32px; font-weight: bold; }
+        body.theme-gradient .watermark { position: absolute; bottom: 60px; right: 60px; color: rgba(255,255,255,0.15); font-size: 24px; }
+
+        /* 3. Minimal Theme */
+        body.theme-minimal { background-color: #F8F8F6; }
+        body.theme-minimal .card { background-color: #FFFFFF; box-shadow: 0 30px 60px rgba(0,0,0,0.05); border-radius: 0; padding: 120px; }
+        body.theme-minimal .label { color: #1A1A1A; text-transform: uppercase; font-size: 20px; letter-spacing: 4px; margin-bottom: 40px; display: block; }
+        body.theme-minimal .headline { color: #0A0A0A; font-weight: 700; font-size: 72px; padding-bottom: 30px; border-bottom: 6px solid {{ brand_color | default('#0A0A0A') }}; margin-bottom: 40px; display: inline-block; }
+        body.theme-minimal .body-text { color: #555555; font-weight: 400; font-size: 48px; }
+        body.theme-minimal .slide-number { position: absolute; top: 60px; right: 60px; background: #0A0A0A; color: #FFFFFF; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 24px; font-weight: bold; }
+        body.theme-minimal .watermark { position: absolute; bottom: 60px; left: 60px; color: #CCCCCC; font-size: 24px; font-weight: 600; }
+
+        /* 4. Bold Theme */
+        body.theme-bold { background-color: {{ brand_color | default('#1A1A1A') }}; }
+        body.theme-bold .card { background-color: #FFFFFF; box-shadow: 20px 20px 0px rgba(0,0,0,0.2); border-radius: 24px; border: 4px solid #0A0A0A; }
+        body.theme-bold .label { color: {{ brand_color | default('#1A1A1A') }}; background: #0A0A0A; text-transform: uppercase; font-size: 24px; font-weight: 900; padding: 12px 30px; display: inline-block; border-radius: 12px; margin-bottom: 40px; letter-spacing: 1px;}
+        body.theme-bold .headline { color: #0A0A0A; font-weight: 900; font-size: 90px; text-transform: uppercase; line-height: 1.1; letter-spacing: -1px; }
+        body.theme-bold .body-text { color: #333333; font-weight: 600; font-size: 48px; }
+        body.theme-bold .accent-bar { border-left: 12px solid {{ brand_color | default('#1A1A1A') }}; padding-left: 40px; }
+        body.theme-bold .slide-number { position: absolute; bottom: 60px; right: 60px; background: {{ brand_color | default('#1A1A1A') }}; border: 4px solid #0A0A0A; color: #0A0A0A; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 32px; font-weight: 900; }
+        body.theme-bold .watermark { position: absolute; bottom: 60px; left: 60px; color: #0A0A0A; font-size: 28px; font-weight: 900; opacity: 0.6; }
+
+        /* 5. Brand Theme */
+        body.theme-brand { background-color: {{ brand_color | default('#1A1A1A') }}; }
+        body.theme-brand .card { background-color: #FFFFFF; border: 2px solid {{ brand_color | default('#1A1A1A') }}; box-shadow: 0 40px 100px rgba(0,0,0,0.3); border-radius: 40px; }
+        body.theme-brand .label { color: {{ brand_color | default('#1A1A1A') }}; text-transform: uppercase; font-size: 24px; font-weight: 800; letter-spacing: 2px; }
+        body.theme-brand .headline { color: #0A0A0A; font-weight: 800; font-size: 80px; }
+        body.theme-brand .body-text { color: #444444; font-size: 48px; }
+        body.theme-brand .accent-bar { border-left: 8px solid {{ brand_color | default('#1A1A1A') }}; padding-left: 40px; }
+        body.theme-brand .slide-number { position: absolute; top: 60px; right: 60px; color: rgba(255,255,255,0.8); font-size: 32px; font-weight: bold; }
+        /* No watermark for brand theme by default */
+
+        /* ── Common Components ────────────────────────────────────────── */
+        .card {
+            width: 880px;
+            height: 880px;
+            padding: 80px;
+            border-radius: 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .logo {
+            position: absolute;
+            top: 60px;
+            left: 60px;
+            max-width: 120px;
+            max-height: 60px;
+            object-fit: contain;
+        }
+
+        h1, p { margin: 0; }
+        h1 { margin-bottom: 40px; line-height: 1.2; }
+        p { line-height: 1.5; }
+
+        .slide-footer {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+        }
+
+    </style>
+</head>
+<body class="theme-{{ theme }}">
+
+    <!-- Watermark (only if requested) -->
+    {% if show_watermark %}
+        <div class="watermark">Created with CloudClick</div>
+    {% endif %}
+
+    <!-- Slide Number -->
+    {% if slide_number %}
+        <div class="slide-number">{{ slide_number }}/{{ total_slides }}</div>
+    {% endif %}
+
+    <div class="card">
+        <!-- Logo -->
+        {% if logo_url %}
+            <img src="{{ logo_url }}" class="logo" alt="Brand Logo">
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

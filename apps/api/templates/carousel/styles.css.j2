@@ -1,0 +1,269 @@
+/* Base carousel styles — injected per slide */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:italic&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg:           {{ theme.bg }};
+  --card-bg:      {{ theme.card_bg }};
+  --card-border:  {{ theme.card_border }};
+  --accent:       {{ theme.accent }};
+  --accent-dark:  {{ theme.accent_dark }};
+  --text-head:    {{ theme.text_head }};
+  --text-body:    {{ theme.text_body }};
+  --text-label:   {{ theme.text_label }};
+  --text-slide-n: {{ theme.text_slide_num }};
+  --card-shadow:  {{ theme.card_shadow }};
+}
+
+html, body {
+  width: 1080px;
+  height: 1080px;
+  overflow: hidden;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  width: 900px;
+  min-height: 820px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 28px;
+  box-shadow: var(--card-shadow);
+  padding: 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Slide number indicator */
+.slide-number {
+  position: absolute;
+  top: 36px;
+  right: 44px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-slide-n);
+  letter-spacing: 0.05em;
+}
+
+/* Progress dots */
+.progress-dots {
+  display: flex;
+  gap: 7px;
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--text-slide-n);
+  opacity: 0.3;
+  transition: all 0.2s;
+}
+.dot.active {
+  opacity: 1;
+  background: var(--accent);
+  width: 20px;
+  border-radius: 4px;
+}
+
+/* Label / eyebrow */
+.label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--text-label);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.label::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 1px;
+}
+
+/* Headline */
+.headline {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-style: italic;
+  font-size: 52px;
+  line-height: 1.12;
+  color: var(--text-head);
+  margin-bottom: 28px;
+  letter-spacing: -0.02em;
+}
+
+/* Accent underline on headline */
+.headline span.accent {
+  position: relative;
+  display: inline;
+}
+.headline span.accent::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--accent);
+  border-radius: 2px;
+  opacity: 0.7;
+}
+
+/* Body text */
+.body {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  font-size: 22px;
+  line-height: 1.65;
+  color: var(--text-body);
+}
+
+/* Left accent bar (shown on content slides) */
+.accent-bar {
+  position: absolute;
+  left: 0;
+  top: 80px;
+  bottom: 80px;
+  width: 4px;
+  background: linear-gradient(180deg, var(--accent) 0%, transparent 100%);
+  border-radius: 0 4px 4px 0;
+}
+
+/* Logo placement */
+.logo-wrap {
+  position: absolute;
+  top: 32px;
+  left: 44px;
+}
+.logo-wrap img {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+  opacity: 0.9;
+}
+
+/* Watermark */
+.watermark {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--text-slide-n);
+  opacity: {{ '0.7' if watermark_prominent else '0.3' }};
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Glassmorphism card (gradient theme only) */
+.card.glass {
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+/* Big number decoration (for hook slide) */
+.big-number {
+  font-family: 'Instrument Serif', serif;
+  font-size: 260px;
+  font-weight: 700;
+  position: absolute;
+  right: -20px;
+  bottom: -40px;
+  color: var(--accent);
+  opacity: 0.06;
+  line-height: 1;
+  user-select: none;
+}
+
+/* Stat highlight box */
+.stat-box {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--bg);
+  padding: 6px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 16px;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: -0.01em;
+}
+
+/* Bullet list */
+.bullet-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 12px;
+}
+.bullet-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  font-size: 21px;
+  line-height: 1.5;
+  color: var(--text-body);
+}
+.bullet-list li::before {
+  content: '';
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin-top: 9px;
+}
+
+/* CTA slide specific */
+.cta-eyebrow {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  margin-bottom: 24px;
+}
+.cta-headline {
+  font-family: 'Instrument Serif', serif;
+  font-size: 58px;
+  line-height: 1.05;
+  font-style: italic;
+  color: var(--text-head);
+  margin-bottom: 28px;
+}
+.cta-line {
+  display: block;
+  width: 48px;
+  height: 3px;
+  background: var(--accent);
+  border-radius: 2px;
+  margin-bottom: 28px;
+}

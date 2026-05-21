@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    {{ css }}
+
+    .cta-card {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* Large decorative quote mark */
+    .quote-mark {
+      font-family: 'Instrument Serif', serif;
+      font-size: 200px;
+      color: var(--accent);
+      opacity: 0.08;
+      position: absolute;
+      top: -20px;
+      left: 40px;
+      line-height: 1;
+      user-select: none;
+    }
+
+    .follow-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 32px;
+      padding: 12px 24px;
+      background: var(--accent);
+      color: #0A0A0A;
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: 0.01em;
+      width: fit-content;
+    }
+  </style>
+</head>
+<body>
+  <div class="card {{ card_class }}">
+    <div class="quote-mark">"</div>
+
+    {% if logo_url %}
+    <div class="logo-wrap">
+      <img src="{{ logo_url }}" alt="logo">
+    </div>
+    {% endif %}
+
+    <div class="slide-number">{{ slide_number }} / {{ total_slides }}</div>
+
+    <div class="cta-card">
+      <div class="cta-eyebrow">{{ label or 'Key Takeaway' }}</div>
+      <h2 class="cta-headline">{{ title }}</h2>
+      <span class="cta-line"></span>
+      <p class="body">{{ body }}</p>
+
+      {% if cta_text %}
+      <div class="follow-cta">
+        {{ cta_text }}
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="progress-dots">
+      {% for i in range(total_slides) %}
+      <div class="dot {{ 'active' if i == (slide_number - 1) else '' }}"></div>
+      {% endfor %}
+    </div>
+
+    {% if watermark_text %}
+    <div class="watermark">{{ watermark_text }}</div>
+    {% endif %}
+  </div>
+</body>
+</html>

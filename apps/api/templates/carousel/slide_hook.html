@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    {{ css }}
+
+    /* Hook slide overrides */
+    .card { justify-content: center; align-items: flex-start; }
+
+    .hook-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--text-label);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .hook-label::before {
+      content: '';
+      width: 20px;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 1px;
+      display: block;
+    }
+
+    .hook-headline {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-style: italic;
+      font-size: {{ '44px' if title|length > 60 else '54px' }};
+      line-height: 1.10;
+      color: var(--text-head);
+      letter-spacing: -0.02em;
+      margin-bottom: 32px;
+      max-width: 680px;
+    }
+
+    .hook-body {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: 20px;
+      line-height: 1.65;
+      color: var(--text-body);
+      max-width: 620px;
+    }
+
+    /* Decorative elements */
+    .corner-accent {
+      position: absolute;
+      bottom: 64px;
+      right: 64px;
+      width: 120px;
+      height: 120px;
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      opacity: 0.12;
+    }
+    .corner-accent-inner {
+      position: absolute;
+      bottom: 88px;
+      right: 88px;
+      width: 72px;
+      height: 72px;
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      opacity: 0.18;
+    }
+  </style>
+</head>
+<body>
+  <div class="card {{ card_class }}">
+    <div class="accent-bar"></div>
+
+    {% if logo_url %}
+    <div class="logo-wrap">
+      <img src="{{ logo_url }}" alt="logo">
+    </div>
+    {% endif %}
+
+    <div class="slide-number">1 / {{ total_slides }}</div>
+
+    <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+      <div class="hook-label">{{ label or 'Key Insight' }}</div>
+      <h1 class="hook-headline">{{ title }}</h1>
+      <p class="hook-body">{{ body }}</p>
+    </div>
+
+    <div class="progress-dots">
+      {% for i in range(total_slides) %}
+      <div class="dot {{ 'active' if i == 0 else '' }}"></div>
+      {% endfor %}
+    </div>
+
+    {% if watermark_text %}
+    <div class="watermark">{{ watermark_text }}</div>
+    {% endif %}
+
+    <div class="corner-accent"></div>
+    <div class="corner-accent-inner"></div>
+  </div>
+</body>
+</html>

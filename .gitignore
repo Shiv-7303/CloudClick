@@ -1,0 +1,16 @@
+node_modules/
+.next/
+__pycache__/
+*.pyc
+.env
+.env.local
+venv/
+.DS_Store
+*.log
+dist/
+build/
+.trigger/
+Docs
+
+*.zip
+*.png
