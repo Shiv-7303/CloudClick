@@ -14,21 +14,73 @@ export const SlideRenderer = ({
   const isLastSlide = slideIndex === totalSlides - 1;
 
   const rawBody = slide?.body || '';
-  const lines = rawBody.split('\n').map((l: string) => l.trim()).filter(Boolean);
-  const isBullets = lines.length >= 3 && lines.every((l: string) => l.length < 100);
-  const bullets = isBullets ? lines : null;
-  const bodyText = isBullets ? '' : rawBody;
-
+  
   // Extract stat if body starts with a number/symbol
   let stat = null;
-  let finalBody = bodyText;
-  if (bodyText && (bodyText[0].match(/[0-9]/) || bodyText.startsWith('%') || bodyText.startsWith('$') || bodyText.startsWith('₹'))) {
-    const parts = bodyText.split(' ');
+  let textToRender = rawBody;
+  
+  const firstLine = rawBody.split('\n')[0].trim();
+  if (firstLine && (firstLine[0].match(/[0-9]/) || firstLine.startsWith('%') || firstLine.startsWith('$') || firstLine.startsWith('₹'))) {
+    const parts = firstLine.split(' ');
     if (parts[0].length < 10) {
       stat = parts[0];
-      finalBody = parts.slice(1).join(' ');
+      // remove the stat from the first line
+      textToRender = rawBody.replace(stat, '').trim();
     }
   }
+
+  // A helper function to render text that might contain markdown bullets and bold text
+  const renderFormattedText = (text: string, color: string) => {
+    const lines = text.split('\n').map((l: string) => l.trim()).filter(Boolean);
+    
+    // Check if the entire block is just a list
+    const allListItems = lines.length > 0 && lines.every((l: string) => /^([\*\-\+]|\d+\.)(?:\s*->)?\s+/.test(l));
+    
+    const formatLine = (line: string) => {
+      // Basic bold parsing: **text** or *text*
+      const parts = line.split(/(\*\*.*?\*\*|\*.*?\*)/g);
+      return parts.map((part, idx) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+          return <strong key={idx} style={{ fontWeight: 'bold' }}>{part.slice(2, -2)}</strong>;
+        }
+        if (part.startsWith('*') && part.endsWith('*')) {
+          return <strong key={idx} style={{ fontWeight: 'bold' }}>{part.slice(1, -1)}</strong>;
+        }
+        return part;
+      });
+    };
+
+    if (allListItems) {
+      return (
+        <ul style={{ marginLeft: '40px', marginTop: '15px', color }}>
+          {lines.map((l: string, i: number) => {
+            const cleanText = l.replace(/^([\*\-\+]|\d+\.)(?:\s*->)?\s+/, '');
+            return <li key={i} style={{marginBottom: '15px'}}>{formatLine(cleanText)}</li>;
+          })}
+        </ul>
+      );
+    }
+    
+    // Mixed content or just paragraphs
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', color }}>
+        {lines.map((l: string, i: number) => {
+          const isListItem = /^([\*\-\+]|\d+\.)(?:\s*->)?\s+/.test(l);
+          if (isListItem) {
+            const cleanText = l.replace(/^([\*\-\+]|\d+\.)(?:\s*->)?\s+/, '');
+            return (
+              <div key={i} style={{ display: 'flex', gap: '15px', paddingLeft: '20px' }}>
+                <span style={{ color: themeColors.accent }}>•</span>
+                <span>{formatLine(cleanText)}</span>
+              </div>
+            );
+          }
+          return <div key={i}>{formatLine(l)}</div>;
+        })}
+      </div>
+    );
+  };
+
 
   // --- V1 BRUTAL LAYOUT (from @preview_template.html) ---
   if (!selectedTheme.startsWith('v2_') && !selectedTheme.startsWith('v3_')) {
@@ -82,13 +134,8 @@ export const SlideRenderer = ({
             )}
           </div>
           
-          <div style={{ fontSize: '40px', fontWeight: 500, color: '#333', lineHeight: 1.45, maxWidth: '900px', marginTop: '15px' }}>
-            {finalBody}
-            {bullets && (
-              <ul style={{ marginLeft: '40px', marginTop: '15px' }}>
-                {bullets.map((b: string, i: number) => <li key={i} style={{marginBottom: '15px'}}>{b}</li>)}
-              </ul>
-            )}
+          <div style={{ fontSize: '40px', fontWeight: 500, lineHeight: 1.45, maxWidth: '900px', marginTop: '15px' }}>
+            {renderFormattedText(textToRender, selectedTheme.startsWith('v3_') ? v3BodyText : themeColors.bodyText)}
           </div>
 
           {isFirstSlide && (
@@ -146,13 +193,8 @@ export const SlideRenderer = ({
           )}
           
           {(!isFirstSlide) && (
-            <div style={{ fontSize: '42px', fontWeight: 400, color: themeColors.bodyText, lineHeight: 1.5, textAlign: isLastSlide ? 'center' : 'left', display: 'inline-block' }}>
-              {finalBody}
-              {bullets && (
-                  <ul style={{ marginLeft: '40px', marginTop: '15px', textAlign: 'left' }}>
-                    {bullets.map((b: string, i: number) => <li key={i} style={{marginBottom: '15px'}}>{b}</li>)}
-                  </ul>
-              )}
+            <div style={{ fontSize: '42px', fontWeight: 400, lineHeight: 1.5, textAlign: isLastSlide ? 'center' : 'left', display: 'inline-block', width: '100%' }}>
+              {renderFormattedText(textToRender, selectedTheme.startsWith('v3_') ? v3BodyText : themeColors.bodyText)}
             </div>
           )}
         </div>
@@ -167,12 +209,21 @@ export const SlideRenderer = ({
   }
 
   // --- V3 BOLD BOX LAYOUT ---
+  const isAltSlide = slideIndex % 2 !== 0 && !isLastSlide && !isFirstSlide;
+  const v3Bg = isAltSlide ? (themeColors.altBg || '#FFFFFF') : themeColors.bg;
+  const v3Text = isAltSlide ? (themeColors.altText || '#000000') : themeColors.text;
+  const v3BodyText = isAltSlide ? (themeColors.altText || '#333333') : themeColors.bodyText;
+
   return (
-    <div style={{ width: '1080px', height: '1080px', backgroundColor: slideIndex % 2 !== 0 && !isLastSlide && !isFirstSlide ? (selectedTheme.includes('lime') ? '#F8F9F3' : '#FFFFFF') : themeColors.bg, position: 'relative', overflow: 'hidden', color: themeColors.text, boxSizing: 'border-box' }}>
+    <div style={{ width: '1080px', height: '1080px', backgroundColor: v3Bg, position: 'relative', overflow: 'hidden', color: v3Text, boxSizing: 'border-box' }}>
       
       <div style={{ position: 'absolute', zIndex: 1, pointerEvents: 'none', opacity: 0.08, top: '200px', left: 0, width: '1080px', height: '1080px' }}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" style={{ width: '100%', height: '100%', stroke: themeColors.border_color || '#000', strokeWidth: 8, strokeLinecap: 'round', strokeLinejoin: 'round', fill: 'none', strokeDasharray: '20 20' }}>
-              <path d="M 200,800 C 400,900 800,400 600,200 C 400,0 200,300 500,600 C 700,800 900,750 1080,800" />
+              {slideIndex % 4 === 0 && <path d="M 200,800 C 400,900 800,400 600,200 C 400,0 200,300 500,600 C 700,800 900,750 1080,800" />}
+              {slideIndex % 4 === 1 && <path d="M -100,300 C 200,100 500,800 700,400 C 800,100 1000,500 1180,600" />}
+              {slideIndex % 4 === 2 && <path d="M 100,900 C 300,500 700,800 800,300 C 900,-100 1000,400 1200,500" />}
+              {slideIndex % 4 === 3 && <path d="M 0,600 C 400,800 500,200 800,400 C 1000,500 1000,900 1080,800" />}
+              
               {isFirstSlide && (
                 <>
                   <path d="M 300,300 L 310,320 L 330,325 L 310,330 L 300,350 L 290,330 L 270,325 L 290,320 Z" stroke="none" fill={themeColors.border_color || '#000'} opacity="0.3"/>
@@ -182,7 +233,7 @@ export const SlideRenderer = ({
           </svg>
       </div>
       
-      <div style={{ position: 'absolute', top: '70px', left: '80px', right: '80px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: 'var(--font-dm-sans), sans-serif', fontWeight: 600, fontSize: '28px', letterSpacing: '0.02em', zIndex: 20, color: themeColors.text }}>
+      <div style={{ position: 'absolute', top: '70px', left: '80px', right: '80px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: 'var(--font-dm-sans), sans-serif', fontWeight: 600, fontSize: '28px', letterSpacing: '0.02em', zIndex: 20, color: v3Text }}>
           <span>{brandLogoUrl ? <img src={brandLogoUrl} crossOrigin="anonymous" style={{height:'40px', objectFit:'contain'}} alt="logo" /> : `@${handleText}`}</span>
           <span>Content Creator</span>
       </div>
@@ -191,7 +242,7 @@ export const SlideRenderer = ({
           
           {(!isFirstSlide && !isLastSlide) && (
               <svg xmlns="http://www.w3.org/2000/svg" style={{ width: '320px', height: '320px', marginBottom: '10px' }} viewBox="0 0 100 100" fill="none" stroke={themeColors.border_color || '#000'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="50" cy="50" r="40" fill={themeColors.bg} />
+                <circle cx="50" cy="50" r="40" fill={v3Bg} />
                 <path d="M30 50 Q 50 20 70 50 Q 50 80 30 50" fill={themeColors.accent} />
                 <circle cx="50" cy="50" r="10" fill={themeColors.border_color || '#000'} />
               </svg>
@@ -199,12 +250,12 @@ export const SlideRenderer = ({
 
           {isLastSlide && (
               <svg xmlns="http://www.w3.org/2000/svg" style={{ width: '320px', height: '320px', marginBottom: '10px' }} viewBox="0 0 100 100" fill="none" stroke={themeColors.border_color || '#000'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="20" y="20" width="60" height="60" rx="10" fill={themeColors.bg} />
+                <rect x="20" y="20" width="60" height="60" rx="10" fill={v3Bg} />
                 <path d="M40 50 L 45 60 L 65 35" stroke={themeColors.accent} strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
           )}
 
-          <div style={{ fontFamily: 'var(--font-bricolage), sans-serif', fontSize: isFirstSlide ? '135px' : '110px', fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.02em', color: themeColors.text, display: 'flex', flexDirection: 'column', alignItems: isFirstSlide ? 'flex-start' : 'center' }}>
+          <div style={{ fontFamily: 'var(--font-bricolage), sans-serif', fontSize: isFirstSlide ? '135px' : '110px', fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.02em', color: v3Text, display: 'flex', flexDirection: 'column', alignItems: isFirstSlide ? 'flex-start' : 'center' }}>
             {isFirstSlide ? (
               <>
                 <span>Things to</span>
@@ -219,33 +270,28 @@ export const SlideRenderer = ({
           </div>
           
           {(!isFirstSlide) && (
-            <div style={{ fontFamily: 'var(--font-dm-sans), sans-serif', fontSize: '42px', fontWeight: 500, color: themeColors.bodyText, lineHeight: 1.45 }}>
-              {finalBody}
-              {bullets && (
-                  <ul style={{ marginLeft: '40px', marginTop: '15px', textAlign: 'left', display: 'inline-block' }}>
-                    {bullets.map((b: string, i: number) => <li key={i} style={{marginBottom: '15px'}}>{b}</li>)}
-                  </ul>
-              )}
+            <div style={{ fontFamily: 'var(--font-dm-sans), sans-serif', fontSize: '42px', fontWeight: 500, lineHeight: 1.45, width: '100%', textAlign: isLastSlide ? 'center' : 'left' }}>
+              {renderFormattedText(textToRender, selectedTheme.startsWith('v3_') ? v3BodyText : themeColors.bodyText)}
             </div>
           )}
       </div>
       
-      <div style={{ position: 'absolute', bottom: '70px', left: '80px', right: '80px', display: 'flex', justifyContent: isLastSlide ? 'center' : 'space-between', alignItems: 'center', zIndex: 20, color: themeColors.text }}>
+      <div style={{ position: 'absolute', bottom: '70px', left: '80px', right: '80px', display: 'flex', justifyContent: isLastSlide ? 'center' : 'space-between', alignItems: 'center', zIndex: 20, color: v3Text }}>
           {!isLastSlide && <div style={{ fontFamily: 'var(--font-bricolage), sans-serif', fontSize: '38px', fontWeight: 700 }}>Swipe for more</div>}
           <div style={{ display: 'flex', alignItems: 'center', position: 'relative', width: isLastSlide ? '100%' : 'auto', justifyContent: isLastSlide ? 'center' : 'flex-end' }}>
               
               {!isLastSlide && (
                 <svg xmlns="http://www.w3.org/2000/svg" style={{ position: 'absolute', left: '-85px', top: '25px', width: '110px', height: '110px', zIndex: 2 }} viewBox="0 0 256 256" fill="none">
-                    <g stroke={themeColors.border_color || '#000'} strokeWidth="14" strokeLinecap="round" strokeLinejoin="round" fill={themeColors.bg}>
+                    <g stroke={themeColors.border_color || '#000'} strokeWidth="14" strokeLinecap="round" strokeLinejoin="round" fill={v3Bg}>
                         <path d="M104,136 V56 a20,20 0 0 1 40,0 v48 M144,96 v-12 a20,20 0 0 1 40,0 v32 M184,104 v-8 a20,20 0 0 1 40,0 v48 c0,32 -20,64 -48,64 H128 C88,208 64,176 64,144 L44,112 a20,20 0 0 1 32,-20 L104,136" />
                     </g>
                     <path d="M124,16 V32 M80,36 L92,48 M168,36 L156,48" stroke={themeColors.border_color || '#000'} strokeWidth="12" strokeLinecap="round"/>
                 </svg>
               )}
 
-              <div style={{ backgroundColor: themeColors.border_color || '#000', borderRadius: isLastSlide ? '45px' : '50%', width: isLastSlide ? '180px' : '90px', height: '90px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: themeColors.bg, zIndex: 1 }}>
-                  {isLastSlide && <span style={{ fontFamily: 'var(--font-bricolage), sans-serif', fontWeight: 700, fontSize: '28px', marginRight: '10px', color: themeColors.bg }}>SAVE</span>}
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style={{ width: isLastSlide ? 34 : 45, height: isLastSlide ? 34 : 45, fill: 'none', stroke: themeColors.bg, strokeWidth: 4, strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+              <div style={{ backgroundColor: themeColors.border_color || '#000', borderRadius: isLastSlide ? '45px' : '50%', width: isLastSlide ? '180px' : '90px', height: '90px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: v3Bg, zIndex: 1 }}>
+                  {isLastSlide && <span style={{ fontFamily: 'var(--font-bricolage), sans-serif', fontWeight: 700, fontSize: '28px', marginRight: '10px', color: v3Bg }}>SAVE</span>}
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style={{ width: isLastSlide ? 34 : 45, height: isLastSlide ? 34 : 45, fill: 'none', stroke: v3Bg, strokeWidth: 4, strokeLinecap: 'round', strokeLinejoin: 'round' }}>
                     <path d="M5 12h14M12 5l7 7-7 7" />
                   </svg>
               </div>

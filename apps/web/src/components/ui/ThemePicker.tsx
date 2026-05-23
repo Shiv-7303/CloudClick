@@ -11,12 +11,12 @@ export const TEMPLATES = [
 
 // Easily add new color palettes here
 export const PALETTES = [
-  { id: 'light', name: 'Light', preview: { bg: '#FAF9F6', accent: '#2563EB', text: '#111111', bodyText: '#333333', border_color: '#111', accentText: '#FFFFFF' } },
-  { id: 'dark', name: 'Dark', preview: { bg: '#0A0A0A', accent: '#F5A623', text: '#F5F5F0', bodyText: '#8C8C8C', border_color: '#222', accentText: '#000000' } },
-  { id: 'minimal', name: 'Minimal', preview: { bg: '#F0F0EC', accent: '#1A1A1A', text: '#0A0A0A', bodyText: '#555555', border_color: '#CCC', accentText: '#FFFFFF' } },
-  { id: 'gradient', name: 'Gradient', preview: { bg: '#302B63', accent: '#A78BFA', text: '#FFFFFF', bodyText: 'rgba(255,255,255,0.72)', border_color: 'rgba(255,255,255,0.12)', accentText: '#000000' } },
-  { id: 'lime', name: 'Lime', preview: { bg: '#D4E149', accent: '#FFFFFF', text: '#000000', bodyText: '#333333', border_color: '#000', accentText: '#000000' } },
-  { id: 'brand', name: 'Your Brand', preview: { bg: '#1A1A1A', accent: '#888888', text: '#FFFFFF', bodyText: '#CCCCCC', border_color: '#444', accentText: '#FFFFFF' }, paidOnly: true },
+  { id: 'light', name: 'Light', preview: { bg: '#FAF9F6', accent: '#2563EB', text: '#111111', bodyText: '#333333', border_color: '#111', accentText: '#FFFFFF', altBg: '#F3F4F6', altText: '#111111' } },
+  { id: 'dark', name: 'Dark', preview: { bg: '#0A0A0A', accent: '#F5A623', text: '#F5F5F0', bodyText: '#8C8C8C', border_color: '#222', accentText: '#000000', altBg: '#1F2937', altText: '#F5F5F0' } },
+  { id: 'minimal', name: 'Minimal', preview: { bg: '#F0F0EC', accent: '#1A1A1A', text: '#0A0A0A', bodyText: '#555555', border_color: '#CCC', accentText: '#FFFFFF', altBg: '#E5E7EB', altText: '#0A0A0A' } },
+  { id: 'gradient', name: 'Gradient', preview: { bg: '#302B63', accent: '#A78BFA', text: '#FFFFFF', bodyText: 'rgba(255,255,255,0.72)', border_color: 'rgba(255,255,255,0.12)', accentText: '#000000', altBg: '#1E1B4B', altText: '#FFFFFF' } },
+  { id: 'lime', name: 'Lime', preview: { bg: '#D4E149', accent: '#FFFFFF', text: '#000000', bodyText: '#333333', border_color: '#000', accentText: '#000000', altBg: '#F8F9F3', altText: '#000000' } },
+  { id: 'brand', name: 'Your Brand', preview: { bg: '#1A1A1A', accent: '#888888', text: '#FFFFFF', bodyText: '#CCCCCC', border_color: '#444', accentText: '#FFFFFF', altBg: '#2A2A2A', altText: '#FFFFFF' }, paidOnly: true },
 ];
 
 interface ThemePickerProps {

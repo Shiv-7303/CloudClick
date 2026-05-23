@@ -7,7 +7,7 @@ interface CarouselExportStageProps {
   slides: Array<{title: string; body: string; slide_number: number}>;
   userTier: string;
   selectedTheme: string;
-  themeColors: { bg: string; accent: string; text: string; bodyText: string; border_color?: string; accentText?: string };
+  themeColors: { bg: string; accent: string; text: string; bodyText: string; border_color?: string; accentText?: string; altBg?: string; altText?: string };
   brandLogoUrl: string | null;
   externalHandle?: string;
 }
@@ -70,3 +70,11 @@ CarouselExportStage.displayName = 'CarouselExportStage';
 // Cache bust to update export stage and ThemePicker
 
 // Final cache bust for text contrast
+
+// Cache bust to fix bullets and markdown
+
+// Final cache bust for V3 layout fixes
+
+// Cache bust to update export stage and ThemePicker
+
+// Final cache bust for global contrast
