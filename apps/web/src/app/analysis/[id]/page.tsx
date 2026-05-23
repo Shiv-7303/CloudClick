@@ -41,6 +41,14 @@ export default function AnalysisPage() {
   }, [id]);
 
   const handleExport = async (format: string) => {
+    if (format === 'png' || format === 'pdf') {
+      // Trigger the client-side export inside the CarouselPreview component
+      window.dispatchEvent(new CustomEvent('trigger_carousel_export', { detail: format }));
+      // Scroll down to the carousel so they can see the spinner
+      document.getElementById('carousel')?.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+
     setExporting(format);
     try {
       const data = await api.createExport(id, format);

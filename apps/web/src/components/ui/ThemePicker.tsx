@@ -1,148 +1,160 @@
 'use client';
 
-import { useState } from 'react';
-import { Check } from '@phosphor-icons/react';
+import { Check, PaintBrush, Layout } from '@phosphor-icons/react';
 
-interface Theme {
-  id: string;
-  name: string;
-  description: string;
-  preview: {
-    bg: string;
-    card: string;
-    accent: string;
-    text: string;
-  };
-  paidOnly?: boolean;
-}
+// Easily add new templates here
+export const TEMPLATES = [
+  { id: 'v1', name: 'Brutal', description: 'Viral agency brutalist layout' },
+  { id: 'v2', name: 'Elegant', description: 'Elegant editorial marker layout' },
+  { id: 'v3', name: 'Bold Box', description: 'High contrast bold box layout' },
+];
 
-const THEMES: Theme[] = [
-  {
-    id: 'dark',
-    name: 'Dark',
-    description: 'Premium dark with amber accents',
-    preview: { bg: '#0A0A0A', card: '#111111', accent: '#F5A623', text: '#F5F5F0' },
-  },
-  {
-    id: 'gradient',
-    name: 'Gradient',
-    description: 'Deep purple gradient glassmorphism',
-    preview: { bg: '#302B63', card: 'rgba(255,255,255,0.1)', accent: '#A78BFA', text: '#FFFFFF' },
-  },
-  {
-    id: 'minimal',
-    name: 'Minimal',
-    description: 'Clean white, LinkedIn-native',
-    preview: { bg: '#F0F0EC', card: '#FFFFFF', accent: '#1A1A1A', text: '#0A0A0A' },
-  },
-  {
-    id: 'bold',
-    name: 'Bold',
-    description: 'High contrast, viral-ready',
-    preview: { bg: '#0A0A0A', card: '#FFFFFF', accent: '#FF3B30', text: '#0A0A0A' },
-  },
-  {
-    id: 'brand',
-    name: 'Your Brand',
-    description: 'Uses your uploaded logo colors',
-    preview: { bg: '#1A1A1A', card: '#FFFFFF', accent: '#888888', text: '#0A0A0A' },
-    paidOnly: true,
-  },
+// Easily add new color palettes here
+export const PALETTES = [
+  { id: 'light', name: 'Light', preview: { bg: '#FAF9F6', accent: '#2563EB', text: '#111111', bodyText: '#333333', border_color: '#111' } },
+  { id: 'dark', name: 'Dark', preview: { bg: '#0A0A0A', accent: '#F5A623', text: '#F5F5F0', bodyText: '#8C8C8C', border_color: '#222' } },
+  { id: 'minimal', name: 'Minimal', preview: { bg: '#F0F0EC', accent: '#1A1A1A', text: '#0A0A0A', bodyText: '#555555', border_color: '#CCC' } },
+  { id: 'gradient', name: 'Gradient', preview: { bg: '#302B63', accent: '#A78BFA', text: '#FFFFFF', bodyText: 'rgba(255,255,255,0.72)', border_color: 'rgba(255,255,255,0.12)' } },
+  { id: 'lime', name: 'Lime', preview: { bg: '#D4E149', accent: '#FFFFFF', text: '#000000', bodyText: '#333333', border_color: '#000' } },
+  { id: 'brand', name: 'Your Brand', preview: { bg: '#1A1A1A', accent: '#888888', text: '#FFFFFF', bodyText: '#CCCCCC', border_color: '#444' }, paidOnly: true },
 ];
 
 interface ThemePickerProps {
-  selectedTheme: string;
-  onThemeChange: (theme: string) => void;
+  selectedTemplate: string;
+  onTemplateChange: (template: string) => void;
+  selectedPalette: string;
+  onPaletteChange: (palette: string) => void;
   hasLogo: boolean;
   brandColor?: string;
   disabled?: boolean;
 }
 
 export function ThemePicker({
-  selectedTheme,
-  onThemeChange,
+  selectedTemplate,
+  onTemplateChange,
+  selectedPalette,
+  onPaletteChange,
   hasLogo,
   brandColor,
   disabled,
 }: ThemePickerProps) {
   return (
-    <div>
-      <p className="text-[10px] uppercase tracking-widest font-mono text-text-m mb-3">
-        Carousel Theme
-      </p>
-      <div className="flex gap-2 flex-wrap">
-        {THEMES.map((theme) => {
-          const isBrandTheme = theme.id === 'brand';
-          const isDisabled   = disabled || (isBrandTheme && !hasLogo);
-          const isSelected   = selectedTheme === theme.id;
-
-          // For brand theme, show actual brand color if available
-          const accentColor = (isBrandTheme && brandColor) ? brandColor : theme.preview.accent;
-
-          return (
-            <button
-              key={theme.id}
-              onClick={() => !isDisabled && onThemeChange(theme.id)}
-              disabled={isDisabled}
-              title={
-                isBrandTheme && !hasLogo
-                  ? 'Upload a logo first to use your brand theme'
-                  : theme.description
-              }
-              className={`
-                group relative flex flex-col items-center gap-2 p-3 rounded-xl border
-                transition-all duration-150 w-[84px]
-                ${isSelected
-                  ? 'border-accent bg-accent/10'
-                  : 'border-border-def bg-bg-surface hover:border-border-str'
-                }
-                ${isDisabled ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'}
-              `}
-            >
-              {/* Mini preview card */}
-              <div
-                className="w-14 h-14 rounded-lg overflow-hidden relative"
-                style={{ background: theme.preview.bg }}
+    <div className="space-y-6">
+      {/* Template Selection */}
+      <div>
+        <div className="flex items-center gap-2 mb-3">
+          <Layout size={14} className="text-text-m" />
+          <p className="text-[10px] uppercase tracking-widest font-mono text-text-m">
+            Select Template
+          </p>
+        </div>
+        <div className="flex gap-2 flex-wrap">
+          {TEMPLATES.map((tmpl) => {
+            const isSelected = selectedTemplate === tmpl.id;
+            return (
+              <button
+                key={tmpl.id}
+                onClick={() => !disabled && onTemplateChange(tmpl.id)}
+                disabled={disabled}
+                className={`
+                  relative px-4 py-2 rounded-lg border text-sm font-medium transition-all
+                  ${isSelected
+                    ? 'border-accent bg-accent/10 text-accent'
+                    : 'border-border-def bg-bg-base text-text-s hover:border-border-str'
+                  }
+                  ${disabled ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'}
+                `}
               >
-                <div
-                  className="absolute inset-[8px] rounded-md"
-                  style={{
-                    background: theme.preview.card,
-                    border: `1px solid ${accentColor}22`,
-                  }}
-                />
-                {/* Accent dot */}
-                <div
-                  className="absolute bottom-[12px] left-[12px] w-[10px] h-[4px] rounded-sm"
-                  style={{ background: accentColor }}
-                />
-                {/* Text lines */}
-                <div
-                  className="absolute top-[14px] left-[12px] right-[12px] h-[3px] rounded-full opacity-60"
-                  style={{ background: theme.preview.text }}
-                />
-                <div
-                  className="absolute top-[20px] left-[12px] w-[60%] h-[2px] rounded-full opacity-30"
-                  style={{ background: theme.preview.text }}
-                />
-              </div>
+                {tmpl.name}
+              </button>
+            );
+          })}
+        </div>
+      </div>
 
-              {/* Label */}
-              <span className={`text-[11px] font-body font-medium leading-none
-                ${isSelected ? 'text-accent' : 'text-text-s'}`}>
-                {theme.name}
-              </span>
+      <div className="w-full h-px bg-border-def" />
 
-              {/* Selected checkmark */}
-              {isSelected && (
-                <div className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full
-                  bg-accent flex items-center justify-center">
-                  <Check size={10} weight="bold" className="text-bg-base" />
+      {/* Palette Selection */}
+      <div>
+        <div className="flex items-center gap-2 mb-3">
+          <PaintBrush size={14} className="text-text-m" />
+          <p className="text-[10px] uppercase tracking-widest font-mono text-text-m">
+            Select Color Theme
+          </p>
+        </div>
+        <div className="flex gap-2 flex-wrap">
+          {PALETTES.map((palette) => {
+            const isBrandPalette = palette.id === 'brand';
+            const isDisabled   = disabled || (isBrandPalette && !hasLogo);
+            const isSelected   = selectedPalette === palette.id;
+
+            const accentColor = (isBrandPalette && brandColor) ? brandColor : palette.preview.accent;
+
+            return (
+              <button
+                key={palette.id}
+                onClick={() => !isDisabled && onPaletteChange(palette.id)}
+                disabled={isDisabled}
+                title={
+                  isBrandPalette && !hasLogo
+                    ? 'Upload a logo first to use your brand theme'
+                    : palette.name
+                }
+                className={`
+                  group relative flex flex-col items-center gap-2 p-2 rounded-xl border
+                  transition-all duration-150 w-[72px]
+                  ${isSelected
+                    ? 'border-accent bg-accent/10'
+                    : 'border-border-def bg-bg-surface hover:border-border-str'
+                  }
+                  ${isDisabled ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'}
+                `}
+              >
+                {/* Mini preview card */}
+                <div
+                  className="w-12 h-12 rounded-lg overflow-hidden relative border border-border-def"
+                  style={{ background: palette.preview.bg }}
+                >
+                  <div
+                    className="absolute inset-[4px] rounded-md"
+                    style={{
+                      background: palette.id === 'gradient' ? 'rgba(255,255,255,0.1)' : palette.preview.bg,
+                      border: `1px solid ${accentColor}40`,
+                    }}
+                  />
+                  {/* Accent dot */}
+                  <div
+                    className="absolute bottom-[8px] left-[8px] w-[8px] h-[3px] rounded-sm"
+                    style={{ background: accentColor }}
+                  />
+                  {/* Text lines */}
+                  <div
+                    className="absolute top-[10px] left-[8px] right-[8px] h-[2px] rounded-full opacity-60"
+                    style={{ background: palette.preview.text }}
+                  />
+                  <div
+                    className="absolute top-[15px] left-[8px] w-[60%] h-[2px] rounded-full opacity-30"
+                    style={{ background: palette.preview.text }}
+                  />
                 </div>
-              )}
-            </button>
-          );
-        })}
+
+                {/* Label */}
+                <span className={`text-[10px] font-body font-medium leading-none whitespace-nowrap
+                  ${isSelected ? 'text-accent' : 'text-text-s'}`}>
+                  {palette.name}
+                </span>
+
+                {/* Selected checkmark */}
+                {isSelected && (
+                  <div className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full
+                    bg-accent flex items-center justify-center">
+                    <Check size={8} weight="bold" className="text-bg-base" />
+                  </div>
+                )}
+              </button>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

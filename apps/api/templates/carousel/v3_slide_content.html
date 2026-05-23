@@ -1,0 +1,70 @@
+{% extends 'carousel/v3_base.html' %}
+
+{% block slide %}
+<div class="slide {% if slide_number % 2 == 0 %}light{% endif %}">
+    <div class="bg-shape" style="top: 200px; left: 0; width: 1080px; height: 1080px;">
+        <svg viewBox="0 0 1080 1080">
+            <path d="M 0,800 C 200,850 400,600 300,400 C 200,200 600,100 800,300 C 1000,500 900,800 1080,750" />
+            <path d="M 200,600 L 210,620 L 230,625 L 210,630 L 200,650 L 190,630 L 170,625 L 190,620 Z" stroke="none" fill="{{ theme.border_color|default('#000') }}" opacity="0.3"/>
+            <path d="M 850,250 L 855,260 L 865,262 L 855,265 L 850,275 L 845,265 L 835,262 L 845,260 Z" stroke="none" fill="{{ theme.border_color|default('#000') }}" opacity="0.3"/>
+        </svg>
+    </div>
+
+    <div class="top-bar">
+        <span>
+            {% if logo_url %}
+                <img src="{{ logo_url }}" style="height: 40px; object-fit: contain;">
+            {% else %}
+                @{{ handle|default('CLOUDCLICK') }}
+            {% endif %}
+        </span>
+        <span>Content Creator</span>
+    </div>
+
+    <div class="content centered">
+        <svg class="illustration" viewBox="0 0 100 100" fill="none" stroke="{{ theme.border_color|default('#000') }}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="50" cy="50" r="40" fill="#fff" />
+            <path d="M30 50 Q 50 20 70 50 Q 50 80 30 50" fill="{{ theme.accent }}" />
+            <circle cx="50" cy="50" r="10" fill="{{ theme.border_color|default('#000') }}" />
+        </svg>
+        
+        <div class="headline-content">
+            {{ title|safe }}
+        </div>
+
+        <div class="body-text">
+            {{ body|safe }}
+            {% if bullets %}
+                <ul class="body-text" style="display: inline-block; margin: 0 auto; text-align: left;">
+                {% for b in bullets %}
+                    <li>{{ b|safe }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div class="swipe-text">Swipe for more</div>
+        <div class="swipe-icon">
+            <svg class="hand-pointer" viewBox="0 0 256 256" fill="none">
+                <g stroke="{{ theme.border_color|default('#000') }}" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" fill="{{ theme.bg }}">
+                    <path d="M104,136 V56 a20,20 0 0 1 40,0 v48 M144,96 v-12 a20,20 0 0 1 40,0 v32 M184,104 v-8 a20,20 0 0 1 40,0 v48 c0,32 -20,64 -48,64 H128 C88,208 64,176 64,144 L44,112 a20,20 0 0 1 32,-20 L104,136" />
+                </g>
+                <path d="M124,16 V32 M80,36 L92,48 M168,36 L156,48" stroke="{{ theme.border_color|default('#000') }}" stroke-width="12" stroke-linecap="round"/>
+            </svg>
+            <div class="arrow-circle">
+                <svg viewBox="0 0 24 24">
+                    <path d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    {% if show_watermark %}
+    <div class="watermark">
+        {{ watermark_text }}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'carousel/v2_base.html' %}
+
+{% block slide %}
+<div class="slide">
+    <div class="eyebrow">{{ label|default('SOCIAL MEDIA 101') }}</div>
+
+    <div class="content">
+        <div class="headline">
+            {% if title_lines %}
+                {% for line in title_lines %}
+                    {% if loop.index == 2 %}
+                        <span class="marker-text">
+                            {{ line|safe }}
+                            <svg viewBox="0 0 100 60" preserveAspectRatio="none">
+                                <path d="M 50, 5 C 75, 6 95, 20 92, 35 C 90, 50 65, 55 50, 55 C 30, 55 5, 45 8, 30 C 10, 15 35, 8 50, 8" 
+                                      fill="none" stroke="{{ theme.accent }}" stroke-width="4" stroke-linecap="round" />
+                            </svg>
+                        </span><br>
+                    {% else %}
+                        {{ line|safe }}<br>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <span class="marker-text">
+                    {{ title|safe }}
+                    <svg viewBox="0 0 100 60" preserveAspectRatio="none">
+                        <path d="M 50, 5 C 75, 6 95, 20 92, 35 C 90, 50 65, 55 50, 55 C 30, 55 5, 45 8, 30 C 10, 15 35, 8 50, 8" 
+                              fill="none" stroke="{{ theme.accent }}" stroke-width="4" stroke-linecap="round" />
+                    </svg>
+                </span>
+            {% endif %}
+        </div>
+        
+        <div class="subhead">WHAT YOU SHOULD DO INSTEAD</div>
+    </div>
+
+    <div class="pill-btn">
+        <svg viewBox="0 0 24 24">
+            <path d="M9 5l7 7-7 7" />
+        </svg>
+    </div>
+    
+    {% if logo_url %}
+    <div style="position: absolute; bottom: 85px; left: 80px;">
+      <img src="{{ logo_url }}" alt="logo" style="height: 30px; object-fit: contain;">
+    </div>
+    {% endif %}
+
+    {% if show_watermark %}
+    <div class="watermark">
+        {{ watermark_text }}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

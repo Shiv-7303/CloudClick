@@ -7,6 +7,13 @@
     "gemini-api-docs-mcp": {
       "type": "http",
       "url": "https://gemini-api-docs-mcp.dev"
+    },
+    "chrome-devtools": {
+      "command": "",
+      "args": [
+        "npx",
+        "-y, @chromedevtools/mcp-server"
+      ]
     }
   }
 }

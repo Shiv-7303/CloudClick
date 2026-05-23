@@ -1,0 +1,52 @@
+{% extends 'carousel/v2_base.html' %}
+
+{% block slide %}
+<div class="slide">
+    <div class="eyebrow">{{ label|default('SOCIAL MEDIA 101') }}</div>
+
+    <div class="content centered">
+        <div style="text-align: center;">
+            <div class="number-badge">
+                {{ "%02d"|format(slide_number) }}
+                <svg class="marker-circle" viewBox="0 0 100 60" preserveAspectRatio="none">
+                    <path d="M 50, 8 C 80, 8 92, 22 88, 38 C 85, 52 65, 55 50, 55 C 25, 55 10, 42 12, 28 C 15, 12 35, 10 50, 10" 
+                          fill="none" stroke="{{ theme.accent }}" stroke-width="4" stroke-linecap="round" />
+                </svg>
+            </div>
+        </div>
+        
+        <div class="headline smaller" style="text-align: center;">
+            {{ title|safe }}
+        </div>
+
+        <div class="body-text">
+            {{ body|safe }}
+            {% if bullets %}
+                <ul class="body-text" style="text-align: left; display: inline-block; margin: 0 auto;">
+                {% for b in bullets %}
+                    <li>{{ b|safe }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="pill-btn">
+        <svg viewBox="0 0 24 24">
+            <path d="M9 5l7 7-7 7" />
+        </svg>
+    </div>
+
+    {% if logo_url %}
+    <div style="position: absolute; bottom: 85px; left: 80px;">
+      <img src="{{ logo_url }}" alt="logo" style="height: 30px; object-fit: contain;">
+    </div>
+    {% endif %}
+
+    {% if show_watermark %}
+    <div class="watermark">
+        {{ watermark_text }}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

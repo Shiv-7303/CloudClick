@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unique Viral Carousel Prototype</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Teko for ultra-condensed bold headlines, Plus Jakarta Sans for clean body -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Teko:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: #1a1a1a;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            align-items: center;
+        }
+
+        /* 
+         * SLIDE CONTAINER (1080x1080)
+         * New Vibe: Modern Brutalism / Agency style
+         */
+        .slide {
+            width: 1080px;
+            height: 1080px;
+            background-color: #faf9f6; /* Crisp warm white */
+            position: relative;
+            overflow: hidden;
+            /* Subtle grid pattern background */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            border: 12px solid #111; /* Thick frame */
+        }
+
+        /* 
+         * TOP NAVIGATION BAR
+         * Placements swapped and styled like a UI header
+         */
+        .top-bar {
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            right: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: #111;
+            border-bottom: 3px solid #111;
+            padding-bottom: 20px;
+        }
+
+        .slide-badge {
+            background-color: #111;
+            color: #fff;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 18px;
+            letter-spacing: 0.1em;
+        }
+
+        /* 
+         * CONTENT WRAPPER
+         * Adjusted padding for the new borders
+         */
+        .content {
+            position: absolute;
+            top: 220px;
+            left: 80px;
+            width: 850px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            z-index: 10;
+        }
+
+        /* 
+         * EYEBROW / LABEL
+         * Tag style instead of just text
+         */
+        .eyebrow {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: 0.15em;
+            color: #2563eb; /* Royal Blue */
+            text-transform: uppercase;
+            display: inline-block;
+            border: 2px solid #2563eb;
+            padding: 6px 14px;
+            border-radius: 6px;
+            width: fit-content;
+            margin-bottom: 10px;
+            box-shadow: 4px 4px 0px rgba(37, 99, 235, 0.15);
+        }
+
+        /* 
+         * HEADLINES
+         * Using Teko for massive, punchy text. Tighter line height.
+         */
+        .headline {
+            font-family: 'Teko', sans-serif;
+            font-size: 160px;
+            line-height: 0.85;
+            text-transform: uppercase;
+            color: #111;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        /* 
+         * HIGHLIGHT BLOCKS 
+         * Skewed slightly for dynamic, aggressive action feel
+         */
+        .highlight-primary {
+            background-color: #2563eb; /* Royal Blue */
+            color: #fff;
+            padding: 0 20px;
+            margin-bottom: 15px;
+            display: inline-block;
+            transform: skew(-5deg); /* Unique touch */
+        }
+        
+        /* The text inside needs to be skewed back so it stays straight */
+        .highlight-primary span {
+            display: inline-block;
+            transform: skew(5deg);
+        }
+
+        .highlight-secondary {
+            background-color: #111;
+            color: #fff;
+            padding: 0 20px;
+            margin-bottom: 15px;
+            display: inline-block;
+            transform: skew(-5deg);
+        }
+        .highlight-secondary span {
+            display: inline-block;
+            transform: skew(5deg);
+        }
+
+        /* 
+         * BODY TEXT
+         */
+        .body-text {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 40px;
+            font-weight: 500;
+            color: #333;
+            line-height: 1.45;
+            max-width: 900px;
+            margin-top: 15px;
+        }
+
+        /* 
+         * QUOTES / ITALICS
+         * Style: Callout box
+         */
+        .quote-block {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 34px;
+            font-weight: 500;
+            color: #111;
+            line-height: 1.5;
+            background-color: #fef08a; /* Warm yellow highlight */
+            padding: 30px 40px;
+            border-left: 8px solid #ca8a04;
+            margin-top: 20px;
+            max-width: 820px;
+            border-radius: 0 12px 12px 0;
+        }
+
+        /* 
+         * FOOTER 
+         * Big blocky footer at the bottom
+         */
+        .footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 90px;
+            background-color: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: 0.1em;
+        }
+
+        .accent-dot {
+            color: #2563eb;
+            margin: 0 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SLIDE 1: THE HOOK -->
+    <div class="slide">
+        <div class="top-bar">
+            <div class="slide-badge">01/05</div>
+            <span>SWIPE ➔</span>
+        </div>
+
+        <div class="content">
+            <div class="eyebrow">The Brutal Truth</div>
+            
+            <div class="headline">
+                <div class="highlight-primary"><span>YOUR CONTENT</span></div>
+                <span>IS BORING</span>
+            </div>
+
+            <div class="body-text">
+                If you're posting 3 times a day but still hearing crickets, it's not the algorithm holding you back.
+            </div>
+
+            <div class="quote-block">
+                "The market doesn't reward hard work. It rewards absolute clarity and irresistible value."
+            </div>
+        </div>
+
+        <div class="footer">
+            @CLOUDCLICK <span class="accent-dot">•</span> SAVE THIS POST
+        </div>
+    </div>
+
+
+    <!-- SLIDE 2: THE CONTENT -->
+    <div class="slide">
+        <div class="top-bar">
+            <div class="slide-badge">02/05</div>
+            <span>@CLOUDCLICK</span>
+        </div>
+
+        <div class="content">
+            <div class="eyebrow">The Fix</div>
+            
+            <div class="headline" style="font-size: 130px;">
+                <span>STOP TEACHING.</span>
+                <div class="highlight-secondary"><span>START</span></div>
+                <div class="highlight-primary"><span>TRANSFORMING.</span></div>
+            </div>
+
+            <div class="body-text">
+                People don't want information anymore. They have ChatGPT for that. They want frameworks, systems, and results.
+            </div>
+        </div>
+        
+        <div class="footer">
+            @CLOUDCLICK <span class="accent-dot">•</span> WWW.CLOUDCLICK.APP
+        </div>
+    </div>
+
+</body>
+</html>

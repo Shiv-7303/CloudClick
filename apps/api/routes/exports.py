@@ -104,10 +104,6 @@ def create_export():
         abort(404, "Analysis not found")
     analysis_data = analysis_res.data[0]
     
-    # Get user settings
-    settings_res = sb.table('user_brand_settings').select('*').eq('user_id', g.user_id).execute()
-    settings = settings_res.data[0] if settings_res.data else {'theme': 'dark'}
-    
     # Create export job record
     job_res = sb.table('export_jobs').insert({
         'user_id': g.user_id,
@@ -118,51 +114,39 @@ def create_export():
     job_id = job_res.data[0]['id']
     
     try:
-        # Generate content
-        content_bytes = None
-        content_type = ''
-        file_extension = format_type
+        # Since PNG and PDF are now rendered fully on the client-side (WYSIWYG Canva approach),
+        # we don't need to generate them on the backend.
+        # We only generate Markdown/JSON on the backend if requested.
+        download_url = None
         
-        slides = analysis_data.get('carousel_slides') or analysis_data.get('carousel_preview') or []
-        
-        if format_type == 'pdf':
-            brand_settings = get_brand_settings(g.user_id) if tier != 'free' else None
-            theme_name = brand_settings.get('preferred_theme', 'dark') if brand_settings else 'dark'
-            content_bytes = render_carousel_pdf(
-                carousel_slides=slides,
-                user_id=g.user_id,
-                user_tier=tier,
-                theme_name=theme_name,
-                video_title=analysis_data.get('video_title', '')
-            )
-            content_type = 'application/pdf'
-        elif format_type == 'png':
-            content_bytes = generate_carousel_pngs(analysis_data, g.user_id, tier)
-            content_type = 'application/zip'
-            file_extension = 'zip'
-        elif format_type == 'markdown':
-            content_bytes = generate_markdown(analysis_data)
-            content_type = 'text/markdown'
-        elif format_type == 'json':
-            content_bytes = json.dumps(analysis_data, indent=2).encode('utf-8')
-            content_type = 'application/json'
+        if format_type in ['markdown', 'json']:
+            content_bytes = None
+            content_type = ''
+            file_extension = format_type
             
-        # Upload to Supabase Storage
-        storage_path = f"{g.user_id}/{analysis_id}/export_{job_id}.{file_extension}"
-        sb.storage.from_("exports").upload(
-            storage_path,
-            content_bytes,
-            {"content-type": content_type}
-        )
-        
-        # Generate signed URL
-        signed = sb.storage.from_('exports').create_signed_url(storage_path, 3600)
-        download_url = signed['signedURL']
-        
+            if format_type == 'markdown':
+                content_bytes = generate_markdown(analysis_data)
+                content_type = 'text/markdown'
+            elif format_type == 'json':
+                content_bytes = json.dumps(analysis_data, indent=2).encode('utf-8')
+                content_type = 'application/json'
+                
+            # Upload to Supabase Storage
+            storage_path = f"{g.user_id}/{analysis_id}/export_{job_id}.{file_extension}"
+            sb.storage.from_("exports").upload(
+                storage_path,
+                content_bytes,
+                {"content-type": content_type}
+            )
+            
+            # Generate signed URL
+            signed = sb.storage.from_('exports').create_signed_url(storage_path, 3600)
+            download_url = signed['signedURL']
+            
         # Update job
         sb.table('export_jobs').update({
             'status': 'complete',
-            'storage_path': storage_path,
+            'storage_path': f"{g.user_id}/{analysis_id}/export_{job_id}.{format_type}" if download_url else None,
             'download_url': download_url,
             'completed_at': 'NOW()'
         }).eq('id', job_id).execute()

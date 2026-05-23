@@ -1,0 +1,280 @@
+﻿﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    /* 
+ * Template 3: Bold Box (v3)
+ * ──────────────────────────────
+ * Bold typography, white highlight boxes with borders.
+ */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=DM+Sans:wght@400;500;600&display=swap');
+
+:root {
+  --bg:           #D4E149;
+  --text-head:    #000000;
+  --text-body:    #333333;
+  --accent:       #FFFFFF;
+  --border-col:   #000000;
+  --card-bg:      #FFFFFF;
+}
+
+html, body {
+  width: 1080px;
+  height: 1080px;
+  overflow: hidden;
+  font-family: 'DM Sans', sans-serif;
+  background-color: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide-frame {
+  width: 1080px;
+  height: 1080px;
+  background-color: var(--bg);
+  position: relative;
+  overflow: hidden;
+  color: var(--text-head);
+}
+
+/* Background connecting shapes */
+.bg-shape {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.08; /* Subdued opacity */
+}
+.bg-shape svg {
+  width: 100%;
+  height: 100%;
+  stroke: var(--text-head);
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  stroke-dasharray: 20 20;
+}
+
+.top-bar {
+  position: absolute;
+  top: 70px;
+  left: 80px;
+  right: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 28px;
+  letter-spacing: 0.02em;
+  z-index: 20;
+  color: var(--text-head);
+}
+
+.content-area {
+  position: absolute;
+  top: 240px;
+  left: 0;
+  width: 1080px;
+  padding: 0 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 10;
+}
+
+.content-area.centered {
+  align-items: center;
+  text-align: center;
+  top: 180px;
+  padding: 0 100px;
+}
+
+.headline-hook {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 95px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: var(--text-head);
+}
+
+.box-highlight {
+  background-color: var(--accent);
+  color: #000000;
+  border: 5px solid var(--border-col);
+  padding: 0 25px;
+  margin: 15px 0;
+  display: inline-block;
+  line-height: 1.1;
+  box-shadow: 6px 6px 0px rgba(0,0,0,0.1);
+}
+
+.headline-content {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 80px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+  margin-top: 30px;
+  color: var(--text-head);
+}
+
+.body-text {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 42px;
+  font-weight: 500;
+  color: var(--text-body);
+  line-height: 1.45;
+}
+
+.footer {
+  position: absolute;
+  bottom: 70px;
+  left: 80px;
+  right: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 20;
+}
+
+.swipe-text {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 38px;
+  font-weight: 700;
+  color: var(--text-head);
+}
+
+.swipe-icon {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.arrow-circle {
+  background-color: var(--text-head);
+  border-radius: 50%;
+  width: 90px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--bg);
+  z-index: 1;
+}
+
+.arrow-circle svg {
+  width: 45px;
+  height: 45px;
+  fill: none;
+  stroke: var(--bg);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hand-pointer {
+  position: absolute;
+  left: -85px;
+  top: 25px;
+  width: 110px;
+  height: 110px;
+  z-index: 2;
+}
+
+/* Bullet list style for Template 3 */
+.bullet-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.bullet-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: 38px;
+  color: var(--text-body);
+  line-height: 1.4;
+}
+.bullet-list li::before {
+  content: '■';
+  color: var(--text-head);
+  font-weight: 800;
+}
+  </style>
+</head>
+<body>
+  <div class="slide-frame">
+    
+    
+<!-- Connecting thread entering from left -->
+<div class="bg-shape" style="top: 200px; left: 0; width: 1080px; height: 1080px;">
+    <svg viewBox="0 0 1080 1080">
+        <path d="M 0,800 C 200,850 400,600 300,400 C 200,200 600,100 800,300 C 1000,500 900,800 1080,750" />
+        <path d="M 200,600 L 210,620 L 230,625 L 210,630 L 200,650 L 190,630 L 170,625 L 190,620 Z" stroke="none" fill="var(--text-head)" opacity="0.3"/>
+        <path d="M 850,250 L 855,260 L 865,262 L 855,265 L 850,275 L 845,265 L 835,262 L 845,260 Z" stroke="none" fill="var(--text-head)" opacity="0.3"/>
+    </svg>
+</div>
+
+
+    <div class="top-bar">
+      <span>@TestHandle</span>
+      
+        <span>2/3</span>
+      
+    </div>
+
+    
+<div class="content centered">
+    <svg class="illustration" viewBox="0 0 100 100" fill="none" stroke="var(--text-head)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="50" cy="50" r="40" fill="var(--card-bg)" />
+        <path d="M30 50 Q 50 20 70 50 Q 50 80 30 50" fill="var(--accent)" />
+        <circle cx="50" cy="50" r="10" fill="var(--text-head)" />
+    </svg>
+    
+    <div class="headline-content">
+        Your Brain Is Tricking You.
+    </div>
+
+    
+    <div class="body-text">
+        You're avoiding how a task <i>might</i> make you feel, not the task itself.
+    </div>
+    
+</div>
+
+
+    <div class="footer">
+      <div class="swipe-text"></div>
+      <div class="swipe-icon">
+          <svg class="hand-pointer" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g stroke="var(--text-head)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" fill="var(--bg)">
+                  <path d="M104,136 V56 a20,20 0 0 1 40,0 v48 M144,96 v-12 a20,20 0 0 1 40,0 v32 M184,104 v-8 a20,20 0 0 1 40,0 v48 c0,32 -20,64 -48,64 H128 C88,208 64,176 64,144 L44,112 a20,20 0 0 1 32,-20 L104,136" />
+              </g>
+              <path d="M124,16 V32 M80,36 L92,48 M168,36 L156,48" stroke="var(--text-head)" stroke-width="12" stroke-linecap="round"/>
+          </svg>
+          <div class="arrow-circle">
+              <svg viewBox="0 0 24 24">
+                  <path d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+              </svg>
+          </div>
+      </div>
+    </div>
+
+    
+
+  </div>
+</body>
+</html>
