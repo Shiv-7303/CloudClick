@@ -60,18 +60,18 @@ export const SlideRenderer = ({
           <div style={{ fontFamily: 'var(--font-teko), sans-serif', fontSize: isFirstSlide ? '160px' : '130px', lineHeight: 0.85, textTransform: 'uppercase', color: themeColors.border_color || '#111', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
             {isFirstSlide ? (
               <>
-                <div style={{ backgroundColor: themeColors.accent, color: '#fff', padding: '0 20px', marginBottom: '15px', display: 'inline-block', transform: 'skew(-5deg)' }}>
+                <div style={{ backgroundColor: themeColors.accent, color: themeColors.accentText || '#fff', padding: '0 20px', marginBottom: '15px', display: 'inline-block', transform: 'skew(-5deg)' }}>
                   <span style={{ display: 'inline-block', transform: 'skew(5deg)' }}>{slide?.title.split(' ')[0]} {slide?.title.split(' ')[1]}</span>
                 </div>
                 <span>{slide?.title.split(' ').slice(2).join(' ')}</span>
               </>
             ) : isLastSlide ? (
               <>
-                <div style={{ backgroundColor: themeColors.accent, color: '#fff', padding: '0 20px', marginBottom: '15px', display: 'inline-block', transform: 'skew(-5deg)' }}>
+                <div style={{ backgroundColor: themeColors.accent, color: themeColors.accentText || '#fff', padding: '0 20px', marginBottom: '15px', display: 'inline-block', transform: 'skew(-5deg)' }}>
                   <span style={{ display: 'inline-block', transform: 'skew(5deg)' }}>SAVE THIS</span>
                 </div>
                 <span>IF YOU FOUND IT</span>
-                <div style={{ backgroundColor: themeColors.border_color || '#111', color: '#fff', padding: '0 20px', marginBottom: '15px', display: 'inline-block', transform: 'skew(-5deg)' }}>
+                <div style={{ backgroundColor: themeColors.border_color || '#111', color: themeColors.bg, padding: '0 20px', marginBottom: '15px', display: 'inline-block', transform: 'skew(-5deg)' }}>
                   <span style={{ display: 'inline-block', transform: 'skew(5deg)' }}>HELPFUL</span>
                 </div>
               </>
@@ -208,7 +208,7 @@ export const SlideRenderer = ({
             {isFirstSlide ? (
               <>
                 <span>Things to</span>
-                <span style={{ backgroundColor: themeColors.accent, color: themeColors.text === '#111111' || themeColors.text === '#0A0A0A' || themeColors.text === '#000000' ? '#fff' : '#000', border: `5px solid ${themeColors.border_color || '#000'}`, padding: '0 25px', margin: '15px 0', display: 'inline-block', lineHeight: 1.1, boxShadow: '6px 6px 0px rgba(0,0,0,0.1)' }}>
+                <span style={{ backgroundColor: themeColors.accent, color: themeColors.accentText || '#fff', border: `5px solid ${themeColors.border_color || '#000'}`, padding: '0 25px', margin: '15px 0', display: 'inline-block', lineHeight: 1.1, boxShadow: '6px 6px 0px rgba(0,0,0,0.1)' }}>
                   {slide?.title.split(' ')[0]}
                 </span>
                 <span>{slide?.title.split(' ').slice(1).join(' ')}</span>

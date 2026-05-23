@@ -178,7 +178,7 @@ export function CarouselPreview({
 
   const paletteObj = PALETTES.find(p => p.id === selectedPalette) || PALETTES[0];
   const themeColors = selectedPalette === 'brand' && brandColor
-    ? { bg: '#FAF9F6', accent: brandColor, text: '#111111', bodyText: '#333333', border_color: '#111' }
+    ? { bg: '#FAF9F6', accent: brandColor, text: '#111111', bodyText: '#333333', border_color: '#111', accentText: '#FFFFFF' }
     : paletteObj.preview;
 
   const displaySlides = isPaid ? slides : slides.slice(0, 3);
