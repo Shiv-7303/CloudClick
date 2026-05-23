@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template 7 - Contrast Split</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: #1a1a1a; padding: 50px; display: flex; flex-direction: column; gap: 40px; align-items: center; }
+        
+        .slide {
+            width: 1080px; height: 1080px;
+            position: relative; overflow: hidden;
+            font-family: 'DM Sans', sans-serif;
+            display: flex;
+        }
+
+        /* 50/50 Split Background */
+        .half-left { width: 50%; height: 100%; background-color: #0A0A0A; }
+        .half-right { width: 50%; height: 100%; background-color: #D2FA5C; /* Toxic lime */ }
+
+        .top-bar {
+            position: absolute; top: 60px; left: 80px; right: 80px;
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 22px; font-weight: 700; z-index: 10;
+        }
+        /* Top bar text color split manually */
+        .tb-left { color: #fff; }
+        .tb-right { color: #000; }
+
+        .content-area {
+            position: absolute; top: 150px; bottom: 120px; left: 0; right: 0;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            gap: 60px; 
+            /* Remove z-index so it doesn't create a strong isolation stacking context */
+        }
+
+        /* The massive text overlapping the boundary */
+        .headline-container {
+            width: 1080px;
+            text-align: center; pointer-events: none;
+            mix-blend-mode: difference;
+            display: flex; flex-direction: column; align-items: center;
+            color: #d2fa5c; /* Mix-blend applies to the color */
+        }
+
+        .headline {
+            font-family: 'Anton', sans-serif;
+            font-size: 180px; 
+            line-height: 0.9; text-transform: uppercase;
+        }
+
+        .body-text-container {
+            width: 1080px;
+            display: flex; justify-content: center;
+            /* Bring z-index back here if needed, but not on parent */
+        }
+
+        .body-text {
+            font-size: 40px; font-weight: 500; line-height: 1.4;
+            max-width: 800px; text-align: center;
+            background: #fff; color: #000; padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .footer {
+            position: absolute; bottom: 60px; left: 80px; right: 80px;
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 20px; font-weight: 700; z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <div class="half-left"></div>
+        <div class="half-right"></div>
+        
+        <div class="top-bar">
+            <span class="tb-left">01 / 05</span>
+            <span class="tb-right">@CLOUDCLICK</span>
+        </div>
+
+        <div class="content-area">
+            <div class="headline-container">
+                <div class="headline">DIVIDE</div>
+                <div class="headline">AND</div>
+                <div class="headline">CONQUER</div>
+            </div>
+
+            <div class="body-text-container">
+                <div class="body-text">
+                    Your audience has a 2-second attention span. Force them to stop scrolling with impossible contrast.
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <span class="tb-left">SWIPE LEFT</span>
+            <span class="tb-right">SAVE FOR LATER</span>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template 4 - Wireframe / Blueprint</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: #1a1a1a;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            align-items: center;
+        }
+
+        /* 
+         * SLIDE CONTAINER
+         */
+        .slide {
+            width: 1080px;
+            height: 1080px;
+            background-color: #F8F9FA; /* Light gray blueprint */
+            position: relative;
+            overflow: hidden;
+            /* Graph paper grid */
+            background-image: 
+                linear-gradient(rgba(37, 99, 235, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(37, 99, 235, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            border: 1px solid #2563eb;
+            font-family: 'Space Mono', monospace;
+        }
+
+        /* Crosshairs in corners */
+        .slide::before, .slide::after {
+            content: '+';
+            position: absolute;
+            font-size: 24px;
+            color: #2563eb;
+            line-height: 1;
+        }
+        .slide::before { top: 20px; left: 20px; }
+        .slide::after { bottom: 20px; right: 20px; }
+        .corner-tr { position: absolute; top: 20px; right: 20px; font-size: 24px; color: #2563eb; line-height: 1; }
+        .corner-bl { position: absolute; bottom: 20px; left: 20px; font-size: 24px; color: #2563eb; line-height: 1; }
+
+        /* 
+         * TOP BAR
+         */
+        .top-bar {
+            position: absolute;
+            top: 60px; left: 60px; right: 60px;
+            display: flex; justify-content: space-between; align-items: flex-start;
+            border-bottom: 1px solid #2563eb;
+            padding-bottom: 15px;
+            color: #2563eb;
+        }
+        
+        .metadata {
+            display: flex; flex-direction: column; gap: 5px; font-size: 14px; text-transform: uppercase;
+        }
+
+        .slide-number {
+            font-size: 40px; font-weight: 700; line-height: 0.8;
+        }
+
+        /* 
+         * CONTENT
+         */
+        .content {
+            position: absolute;
+            top: 250px; left: 60px; width: 900px;
+            display: flex; flex-direction: column; gap: 30px;
+        }
+
+        .eyebrow {
+            font-size: 16px; text-transform: uppercase; letter-spacing: 2px;
+            color: #111; border: 1px solid #111; padding: 8px 16px;
+            display: inline-block; width: fit-content;
+        }
+
+        .headline {
+            font-size: 110px; font-weight: 700; line-height: 0.9;
+            color: #111; text-transform: uppercase; letter-spacing: -2px;
+        }
+
+        .headline span { color: #2563eb; }
+
+        .body-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 38px; font-weight: 500; line-height: 1.4; color: #333;
+            max-width: 800px; padding: 30px; border: 1px dashed #2563eb;
+            background-color: rgba(255,255,255,0.8);
+        }
+
+        /* 
+         * FOOTER
+         */
+        .footer {
+            position: absolute;
+            bottom: 60px; left: 60px; right: 60px;
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 18px; text-transform: uppercase; color: #111;
+        }
+    </style>
+</head>
+<body>
+    <!-- SLIDE 1 -->
+    <div class="slide">
+        <div class="corner-tr">+</div><div class="corner-bl">+</div>
+        <div class="top-bar">
+            <div class="metadata">
+                <span>PROJECT: CLOUDCLICK</span>
+                <span>STATUS: ACTIVE</span>
+            </div>
+            <div class="slide-number">01</div>
+        </div>
+        <div class="content">
+            <div class="eyebrow">DIAGNOSTIC REPORT</div>
+            <div class="headline">THE SYSTEM IS <span>BROKEN.</span></div>
+            <div class="body-text">We rely on algorithms we don't control to reach audiences we don't own. It's time to build a new architecture.</div>
+        </div>
+        <div class="footer">
+            <span>@CLOUDCLICK</span>
+            <span>[ SWIPE TO ANALYZE ]</span>
+        </div>
+    </div>
+</body>
+</html>

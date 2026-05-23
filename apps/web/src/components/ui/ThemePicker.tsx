@@ -7,6 +7,11 @@ export const TEMPLATES = [
   { id: 'v1', name: 'Brutal', description: 'Viral agency brutalist layout' },
   { id: 'v2', name: 'Elegant', description: 'Elegant editorial marker layout' },
   { id: 'v3', name: 'Bold Box', description: 'High contrast bold box layout' },
+  { id: 'v4', name: 'Blueprint', description: 'Technical wireframe layout' },
+  { id: 'v5', name: 'Editorial', description: 'High-fashion split layout' },
+  { id: 'v6', name: 'Sticker', description: 'Neo-brutalist pop layout' },
+  { id: 'v7', name: 'Split', description: 'Aggressive 50/50 contrast layout' },
+  { id: 'v8', name: 'Manifesto', description: 'Pure typography poster layout' },
 ];
 
 // Easily add new color palettes here

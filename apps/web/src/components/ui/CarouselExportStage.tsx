@@ -78,3 +78,7 @@ CarouselExportStage.displayName = 'CarouselExportStage';
 // Cache bust to update export stage and ThemePicker
 
 // Final cache bust for global contrast
+
+// Final cache bust for V1 layout logic
+
+// Cache bust for manifesto width

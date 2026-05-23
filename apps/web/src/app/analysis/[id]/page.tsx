@@ -198,7 +198,6 @@ export default function AnalysisPage() {
             userTier={(session?.tier as 'free' | 'creator' | 'pro') ?? 'free'}
             analysisId={analysis.id}
             videoTitle={analysis.video_title || ''}
-            onExportClick={(format) => handleExport(format)}
           />
         </section>
         {/* ── END CAROUSEL SECTION ─────────────────────────────────── */}

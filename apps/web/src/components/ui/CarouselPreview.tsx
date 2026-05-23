@@ -114,7 +114,6 @@ export function CarouselPreview({
             pixelRatio: 1,
             cacheBust: true,
             skipFonts: false,
-            imageTimeout: 5000,
             style: { transform: 'scale(1)', transformOrigin: 'top left' }
           }),
           new Promise<string>((_, reject) => setTimeout(() => reject(new Error(`timeout on slide ${i+1}`)), 25000))
@@ -328,3 +327,4 @@ export function CarouselPreview({
     </div>
   );
 }
+// Force recompilation to load all 8 templates

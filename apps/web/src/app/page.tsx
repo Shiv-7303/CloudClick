@@ -1,4 +1,5 @@
 'use client';
+import { Suspense } from 'react';
 
 import { useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
@@ -8,7 +9,7 @@ import { api } from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
-export default function LandingPage() {
+function LandingPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { data: session, status } = useSession();
@@ -132,5 +133,13 @@ function PricingCard({ tier, price, limit, features, highlighted = false }: any)
         Get Started
       </button>
     </div>
+  );
+}
+
+export default function LandingPage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center text-text-s">Loading...</div>}>
+      <LandingPageContent />
+    </Suspense>
   );
 }

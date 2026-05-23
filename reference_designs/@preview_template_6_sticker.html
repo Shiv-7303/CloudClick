@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template 6 - Neo-Brutal Stickers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Outfit:wght@500;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: #1a1a1a; padding: 50px; display: flex; flex-direction: column; gap: 40px; align-items: center; }
+        
+        .slide {
+            width: 1080px; height: 1080px;
+            background-color: #FF5A5F; /* Loud salmon/red bg */
+            position: relative; overflow: hidden;
+            font-family: 'Outfit', sans-serif;
+            /* Halftone dot pattern */
+            background-image: radial-gradient(#000 15%, transparent 16%), radial-gradient(#000 15%, transparent 16%);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+        }
+
+        /* Solid background box for content to sit on so dots don't ruin legibility */
+        .bg-card {
+            position: absolute; top: 60px; left: 60px; right: 60px; bottom: 60px;
+            background-color: #F8F9FA;
+            border: 8px solid #000;
+            border-radius: 40px;
+            box-shadow: 16px 16px 0px #000;
+        }
+
+        .sticker-badge {
+            position: absolute; top: -30px; right: 60px;
+            background: #FFD166; border: 6px solid #000; border-radius: 50px;
+            padding: 10px 30px; font-family: 'Archivo Black', sans-serif;
+            font-size: 32px; text-transform: uppercase;
+            box-shadow: 8px 8px 0px #000; transform: rotate(5deg);
+        }
+
+        .content {
+            position: absolute; top: 180px; left: 60px; right: 60px;
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+        }
+
+        .headline {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 130px; line-height: 0.9; text-transform: uppercase;
+            color: #000; text-shadow: 6px 6px 0px #4EA8DE; /* Cyan shadow */
+            margin-bottom: 40px;
+            transform: rotate(-2deg);
+        }
+
+        .body-text {
+            font-size: 42px; font-weight: 700; line-height: 1.4; color: #000;
+            max-width: 750px; background: #fff; padding: 20px 40px;
+            border: 5px solid #000; border-radius: 20px;
+            box-shadow: 8px 8px 0px #000;
+        }
+
+        .footer {
+            position: absolute; bottom: 50px; left: 60px; right: 60px;
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 28px; font-weight: 900; color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <div class="bg-card">
+            <div class="sticker-badge">STOP SCROLLING!</div>
+            
+            <div class="content">
+                <div class="headline">YOUR HOOKS<br>ARE WEAK.</div>
+                <div class="body-text">
+                    Nobody reads your caption if your first slide puts them to sleep within 0.5 seconds.
+                </div>
+            </div>
+
+            <div class="footer">
+                <span>@CLOUDCLICK</span>
+                <span>01/05 ➔</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

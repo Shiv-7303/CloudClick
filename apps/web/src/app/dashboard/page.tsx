@@ -178,7 +178,7 @@ export default function Dashboard() {
       {hasMore && (
         <div className="mt-12 text-center">
           <button 
-            onClick={() => fetchHistory(page + 1)}
+            onClick={() => fetchData(page + 1)}
             className="px-6 py-2 border border-border-str rounded-full text-text-s hover:text-text-p hover:border-text-s transition-colors"
           >
             Load More

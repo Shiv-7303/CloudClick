@@ -1,11 +1,12 @@
 'use client';
+import { Suspense } from 'react';
 
 import { useEffect, useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import { YoutubeLogo, GoogleLogo } from '@phosphor-icons/react';
 
-export default function AuthPage() {
+function AuthContent() {
   const searchParams = useSearchParams();
   const [pendingUrl, setPendingUrl] = useState<string | null>(null);
 
@@ -60,5 +61,13 @@ export default function AuthPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function AuthPage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center text-text-s">Loading...</div>}>
+      <AuthContent />
+    </Suspense>
   );
 }

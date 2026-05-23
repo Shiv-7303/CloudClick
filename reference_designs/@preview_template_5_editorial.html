@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template 5 - Editorial Split</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: #1a1a1a; padding: 50px; display: flex; flex-direction: column; gap: 40px; align-items: center; }
+        
+        .slide {
+            width: 1080px; height: 1080px;
+            background-color: #F8F5F0; /* Warm off-white */
+            position: relative; overflow: hidden;
+            font-family: 'Inter', sans-serif; color: #111;
+        }
+
+        /* The single elegant split line */
+        .split-line {
+            position: absolute; top: 0; bottom: 0; left: 180px;
+            width: 1px; background-color: rgba(17, 17, 17, 0.2);
+        }
+
+        .eyebrow {
+            position: absolute; top: 80px; left: 220px;
+            font-size: 14px; text-transform: uppercase; letter-spacing: 4px;
+            font-weight: 500;
+        }
+
+        .slide-number {
+            position: absolute; top: 80px; left: 40px; width: 100px;
+            font-size: 14px; text-align: center; letter-spacing: 2px;
+        }
+
+        .headline {
+            position: absolute; top: 220px; left: 160px; /* Overlaps the line slightly */
+            font-family: 'Playfair Display', serif;
+            font-size: 140px; font-weight: 400; line-height: 0.95; letter-spacing: -2px;
+            width: 850px;
+        }
+
+        .headline i {
+            font-style: italic; color: #b45309; /* Accent dark orange/gold */
+        }
+
+        .body-text {
+            position: absolute; bottom: 180px; left: 220px;
+            font-size: 36px; font-weight: 300; line-height: 1.5; color: #444;
+            max-width: 700px;
+        }
+
+        .footer {
+            position: absolute; bottom: 80px; left: 220px; right: 80px;
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 14px; text-transform: uppercase; letter-spacing: 3px;
+            border-top: 1px solid rgba(17,17,17,0.2); padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <div class="split-line"></div>
+        <div class="slide-number">No. 01</div>
+        <div class="eyebrow">Chapter One</div>
+        
+        <div class="headline">
+            The Art of<br><i>Subtle</i><br>Influence.
+        </div>
+        
+        <div class="body-text">
+            True authority doesn't shout. It speaks softly, knowing the right people will lean in to listen.
+        </div>
+        
+        <div class="footer">
+            <span>@CLOUDCLICK</span>
+            <span>READ MORE ➔</span>
+        </div>
+    </div>
+</body>
+</html>
