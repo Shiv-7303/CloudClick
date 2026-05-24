@@ -101,9 +101,9 @@ function LandingPageContent() {
         <div className="max-w-5xl mx-auto px-6">
           <h2 className="text-3xl font-display text-center mb-16">Simple, transparent pricing</h2>
           <div className="grid md:grid-cols-3 gap-8">
-            <PricingCard tier="Free" price="₹0" limit="1 analysis lifetime" features={["Basic summary", "1 LinkedIn Post", "Twitter Thread preview"]} />
-            <PricingCard tier="Creator" price="₹499/mo" limit="20 analyses/mo" features={["Everything in Free", "3 LinkedIn angles", "Carousel Exports (PNG/PDF)", "Content Calendar"]} highlighted />
-            <PricingCard tier="Pro" price="₹999/mo" limit="40 analyses/mo" features={["Everything in Creator", "No CloudClick watermarks", "JSON/Markdown exports", "Contrarian angles"]} />
+            <PricingCard tier="Free" tagline="Try CloudClick risk-free." price="$0" limit="1 analysis lifetime" features={["Standard AI", "1 LinkedIn Post", "Basic Twitter Thread", "Carousel Preview", "Basic Summary & Transcript"]} />
+            <PricingCard tier="Creator" tagline="Everything you need to turn videos into content." price="$11/mo or $99/yr" limit="20 analyses/mo" features={["Advanced AI", "3 LinkedIn Versions", "Carousel Exports (PNG/PDF)", "1500w Blog Content", "7-Day Playbook", "No Watermark"]} highlighted />
+            <PricingCard tier="Pro" tagline="For creators who treat content like a business." price="$25/mo or $249/yr" limit="40 analyses/mo" features={["Premium AI", "5 LinkedIn Versions", "Premium Carousel Templates", "2000w Blog Content", "30-Day Playbook", "Priority Generation", "Lead Magnet Generator"]} />
           </div>
         </div>
       </section>
@@ -116,10 +116,11 @@ function LandingPageContent() {
   );
 }
 
-function PricingCard({ tier, price, limit, features, highlighted = false }: any) {
+function PricingCard({ tier, tagline, price, limit, features, highlighted = false }: any) {
   return (
     <div className={`rounded-2xl p-8 border flex flex-col ${highlighted ? 'border-accent bg-bg-elevated shadow-glow-amber' : 'border-border-str bg-bg-surface'}`}>
-      <h3 className="text-2xl font-display mb-2">{tier}</h3>
+      <h3 className="text-2xl font-display mb-1">{tier}</h3>
+      {tagline && <p className="text-sm text-text-s mb-4">{tagline}</p>}
       <div className="text-3xl font-bold text-text-p mb-1">{price}</div>
       <div className="text-sm text-text-s mb-6">{limit}</div>
       <ul className="space-y-3 mb-8 flex-1">

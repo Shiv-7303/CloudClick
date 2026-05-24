@@ -293,7 +293,7 @@ export function CarouselPreview({
             className="px-4 py-2 rounded-lg bg-accent text-bg-base
               font-body font-medium text-sm hover:bg-accent-dim transition-colors"
           >
-            Upgrade to Creator — ₹499/mo
+            Upgrade to Creator — $11/mo
           </button>
         </div>
       )}
